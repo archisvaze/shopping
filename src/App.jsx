@@ -22,9 +22,9 @@ export default function App() {
     });
 
     const priceRanges = {
-        '0-Rs250': [0, 250],
-        'Rs251-450': [251, 450],
-        'Rs450+': [451, Infinity],
+        '0-250': [0, 250],
+        '251-450': [251, 450],
+        '450+': [451, Infinity],
     };
 
     const fetchProducts = async () => {
@@ -106,14 +106,6 @@ export default function App() {
         });
     };
 
-    const toggleColorFilter = (color) => {
-        setFilters((prev) => {
-            const isActive = prev.color.includes(color);
-            const updatedColors = isActive ? prev.color.filter((c) => c !== color) : [...prev.color, color];
-            return { ...prev, color: updatedColors };
-        });
-    };
-
     useEffect(() => {
         fetchProducts();
     }, []);
@@ -131,7 +123,7 @@ export default function App() {
     };
 
     return (
-        <main>
+        <main className='h-full w-full'>
             <div className='container mx-auto p-4'>
                 <header className='bg-gray-800 text-white p-4 flex justify-between items-center mb-4 rounded'>
                     <h1 className='text-2xl font-bold'>Products</h1>
@@ -166,57 +158,60 @@ export default function App() {
                     </div>
                 )}
                 <div className='mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full'>
-                    <div className='mb-6 flex flex-wrap gap-4'>
+                    <div>
                         <h2 className='font-bold mb-2 w-full'>Colors</h2>
-                        {colors.map((color) => (
-                            <button
-                                key={color}
-                                onClick={() => toggleColorFilter(color)}
-                                className={`w-10 h-10 rounded-full border-4 ${
-                                    filters.color.includes(color) ? `bg-${color}-600 border-${color}-700` : 'border-gray-400'
-                                }`}
-                                style={{
-                                    backgroundColor: filters.color.includes(color) ? color : 'transparent',
-                                    borderColor: color,
-                                }}
-                            ></button>
-                        ))}
+                        <div className='flex gap-1 flex-wrap'>
+                            {colors.map((color) => (
+                                <Checkbox
+                                    key={color}
+                                    onChange={() => onCheckboxChange('color', color)}
+                                >
+                                    {color.charAt(0).toUpperCase() + color.slice(1)}
+                                </Checkbox>
+                            ))}
+                        </div>
                     </div>
 
                     <div>
-                        <h2 className='font-bold mb-2'>Gender</h2>
-                        {['men', 'women'].map((gender) => (
-                            <Checkbox
-                                key={gender}
-                                onChange={() => onCheckboxChange('gender', gender)}
-                            >
-                                {gender.charAt(0).toUpperCase() + gender.slice(1)}
-                            </Checkbox>
-                        ))}
+                        <h2 className='font-bold mb-2 '>Gender</h2>
+                        <div className='flex gap-1 flex-wrap'>
+                            {['men', 'women'].map((gender) => (
+                                <Checkbox
+                                    key={gender}
+                                    onChange={() => onCheckboxChange('gender', gender)}
+                                >
+                                    {gender.charAt(0).toUpperCase() + gender.slice(1)}
+                                </Checkbox>
+                            ))}
+                        </div>
                     </div>
 
                     <div>
                         <h2 className='font-bold mb-2'>Price</h2>
-                        {Object.keys(priceRanges).map((range) => (
-                            <Checkbox
-                                key={range}
-                                onChange={() => onCheckboxChange('price', range)}
-                            >
-                                {range}
-                            </Checkbox>
-                        ))}
+                        <div className='flex gap-1 flex-wrap'>
+                            {Object.keys(priceRanges).map((range) => (
+                                <Checkbox
+                                    key={range}
+                                    onChange={() => onCheckboxChange('price', range)}
+                                >
+                                    ₹ {range}
+                                </Checkbox>
+                            ))}
+                        </div>
                     </div>
 
                     <div>
                         <h2 className='font-bold mb-2'>Type</h2>
-                        {['polo', 'hoodie', 'basic'].map((type) => (
-                            <Checkbox
-                                key={type}
-                                onChange={() => onCheckboxChange('type', type)}
-                            >
-                                {type.charAt(0).toUpperCase() + type.slice(1)}
-                            </Checkbox>
-                        ))}
+                        <div className='flex gap-1 flex-wrap'>
+                            {['polo', 'hoodie', 'basic'].map((type) => (
+                                <Checkbox
+                                    key={type}
+                                    onChange={() => onCheckboxChange('type', type)}
+                                >
+                                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                                </Checkbox>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
@@ -240,13 +235,13 @@ export default function App() {
 
                                         <div className='flex items-center flex-wrap gap-2'>
                                             <div className='mt-2'>
-                                                <button
+                                                <div
                                                     className='w-4 h-4 rounded-full'
                                                     style={{
                                                         backgroundColor: color,
                                                         border: '1px solid gray',
                                                     }}
-                                                ></button>
+                                                ></div>
                                             </div>
                                             <p className='text-gray-700 capitalize mt-2'>{product.type}</p>
                                             <div className='flex items-center gap-2 mt-2'>
