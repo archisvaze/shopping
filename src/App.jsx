@@ -171,7 +171,6 @@ export default function App() {
                             ))}
                         </div>
                     </div>
-
                     <div>
                         <h2 className='font-bold mb-2 '>Gender</h2>
                         <div className='flex gap-1 flex-wrap'>
@@ -194,7 +193,7 @@ export default function App() {
                                     key={range}
                                     onChange={() => onCheckboxChange('price', range)}
                                 >
-                                    ₹ {range}
+                                    $ {range}
                                 </Checkbox>
                             ))}
                         </div>
@@ -246,7 +245,7 @@ export default function App() {
                                             <p className='text-gray-700 capitalize mt-2'>{product.type}</p>
                                             <div className='flex items-center gap-2 mt-2'>
                                                 <span className='bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm'>
-                                                    ${product.price.toFixed(2)}
+                                                    {/* ₹  */}$ {product.price.toFixed(2)}
                                                 </span>
                                                 <span
                                                     className={`${
